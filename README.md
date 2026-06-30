@@ -6,7 +6,7 @@ pnpm monorepo for the `@lazy-opencode` plugin suite.
 
 - `@lazy-opencode/core` — shared package placeholder
 - `@lazy-opencode/loop` — command-only lazy loop plugin
-- `@lazy-opencode/agents` — Producer-first agent system plugin
+- `@lazy-opencode/agents` — Producer-first agent catalog plugin
 
 ## Install
 
@@ -46,7 +46,11 @@ export default {
 };
 ```
 
-`@lazy-opencode/agents` registers Producer as the default primary agent and disables opencode's built-in primary agents.
+`@lazy-opencode/agents` registers Producer as the default primary agent, disables opencode's built-in primary agents, and exposes the rest of the catalog as subagents.
+
+Agent catalog: `producer`, `kotori`, `haruka`, `chihaya`, `miki`, `yukiho`, `yayoi`, `makoto`, `iori`, `hibiki`, `azusa`, `ami`, `mami`, `ritsuko`, and `takane`.
+
+It also registers `/debut`, a Producer-run command that asks every lazy-opencode subagent to report once and summarizes the readiness results. Agent names are lowercase as part of this package's public interface.
 
 ### Package layout
 
@@ -54,7 +58,7 @@ export default {
 packages/
   core/    core package placeholder
   loop/    command-only lazy loop plugin
-  agents/  minimal plugin package
+  agents/  Producer-first agent catalog plugin
 ```
 
 Each package is an independent ESM TypeScript package with its own `package.json`, `tsconfig.json`, and build config.
