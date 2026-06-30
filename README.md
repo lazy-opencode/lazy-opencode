@@ -30,7 +30,8 @@ pnpm typecheck
 - `/lazy-loop-status` reports state
 - loop state is stored in `.lazy-opencode/loop/state.json`
 - the completion tag defaults to `<lazy-opencode>DONE</lazy-opencode>`
-- the iteration limit defaults to `20`
+- the stop tag defaults to `<lazy-opencode>STOP</lazy-opencode>`
+- there is no built-in max iteration limit; stop with `/lazy-loop-cancel` or the stop tag
 
 Example:
 

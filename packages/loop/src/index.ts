@@ -10,7 +10,7 @@ const COMMAND_STATUS = "lazy-loop-status";
 const STATE_DIRECTORY = ".lazy-opencode/loop";
 const STATE_FILE = "state.json";
 const DEFAULT_COMPLETION_TAG = "<lazy-opencode>DONE</lazy-opencode>";
-const DEFAULT_MAX_ITERATIONS = 20;
+const DEFAULT_STOP_TAG = "<lazy-opencode>STOP</lazy-opencode>";
 
 type JsonRecord = Record<string, unknown>;
 
@@ -21,8 +21,8 @@ interface LoopState {
   directory: string;
   task: string;
   iteration: number;
-  maxIterations: number;
   completionTag: string;
+  stopTag: string;
   createdAt: string;
   updatedAt: string;
   lastAutoReplyAt?: string;
@@ -132,8 +132,8 @@ async function startLoop(
     directory: projectDirectory,
     task,
     iteration: 0,
-    maxIterations: DEFAULT_MAX_ITERATIONS,
     completionTag: DEFAULT_COMPLETION_TAG,
+    stopTag: DEFAULT_STOP_TAG,
     createdAt: now,
     updatedAt: now,
   };
@@ -143,8 +143,8 @@ async function startLoop(
     output,
     [
       `lazy-loop started for session ${sessionID}.`,
-      `Max iterations: ${DEFAULT_MAX_ITERATIONS}.`,
       `Completion tag: ${DEFAULT_COMPLETION_TAG}`,
+      `Stop tag: ${DEFAULT_STOP_TAG}`,
     ].join("\n"),
   );
 }
@@ -169,6 +169,12 @@ async function continueLoop(
       log(client, "info", `lazy-loop completed for session ${sessionID}.`);
       return;
     }
+
+    if (lastAssistantText.includes(state.stopTag)) {
+      await deleteLoopState(projectDirectory);
+      log(client, "info", `lazy-loop stopped by assistant for session ${sessionID}.`);
+      return;
+    }
   } catch (error) {
     await writeLoopState(projectDirectory, {
       ...state,
@@ -176,12 +182,6 @@ async function continueLoop(
       updatedAt: new Date().toISOString(),
     });
     log(client, "error", `lazy-loop could not inspect session ${sessionID}.`, error);
-    return;
-  }
-
-  if (state.iteration >= state.maxIterations) {
-    await deleteLoopState(projectDirectory);
-    log(client, "info", `lazy-loop stopped for session ${sessionID}: max iterations reached.`);
     return;
   }
 
@@ -228,7 +228,7 @@ async function getStatus(projectDirectory: string, sessionID: string): Promise<s
   return [
     `lazy-loop is active for session ${sessionID}.`,
     `Task: ${state.task}`,
-    `Iteration: ${state.iteration}/${state.maxIterations}`,
+    `Iteration: ${state.iteration}`,
     `State: ${getStatePath(projectDirectory)}`,
     state.lastError ? `Last error: ${state.lastError}` : undefined,
   ]
@@ -243,12 +243,16 @@ function buildContinuationPrompt(state: LoopState): string {
     "Task:",
     state.task,
     "",
-    `Iteration: ${state.iteration}/${state.maxIterations}`,
+    `Iteration: ${state.iteration}`,
     "",
     "Continue from the current session context.",
     "If the task is fully complete, end your response with:",
     "",
     state.completionTag,
+    "",
+    "If you are blocked, cannot continue safely, or need user input, end your response with:",
+    "",
+    state.stopTag,
   ].join("\n");
 }
 
@@ -297,8 +301,8 @@ function isLoopState(value: unknown): value is LoopState {
     typeof value.directory === "string" &&
     typeof value.task === "string" &&
     typeof value.iteration === "number" &&
-    typeof value.maxIterations === "number" &&
     typeof value.completionTag === "string" &&
+    typeof value.stopTag === "string" &&
     typeof value.createdAt === "string" &&
     typeof value.updatedAt === "string"
   );

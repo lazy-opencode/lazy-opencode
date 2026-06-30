@@ -15,9 +15,12 @@ Command-only lazy loop plugin for opencode.
 - command handling is performed by `command.execute.before`
 - session progress is stored at `.lazy-opencode/loop/state.json` under the project cwd
 - default completion tag: `<lazy-opencode>DONE</lazy-opencode>`
-- default max iterations: `20`
+- default stop tag: `<lazy-opencode>STOP</lazy-opencode>`
+- no built-in max iteration limit; stop with `/lazy-loop-cancel` or the stop tag
 - session idleness drives the continuation loop through `session.idle`
 - deleted sessions are cleaned up via `session.deleted`
+
+The assistant can stop the loop without marking the task complete by ending a response with the stop tag. This is for blocked states, unsafe continuation, or cases that need user input.
 
 ## Example
 
