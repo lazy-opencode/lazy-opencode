@@ -1,14 +1,12 @@
 # lazy-opencode
 
-Initial pnpm monorepo for an experimental opencode plugin suite published under the npm scope `@lazy-opencode`.
-
-This repository intentionally contains only tooling and minimal package entrypoints right now. Feature behavior will be discussed and added incrementally.
+pnpm monorepo for the `@lazy-opencode` plugin suite.
 
 ## Packages
 
-- `@lazy-opencode/core` — core package placeholder
-- `@lazy-opencode/loop` — minimal opencode plugin entrypoint returning no hooks
-- `@lazy-opencode/agents` — minimal opencode plugin entrypoint returning no hooks
+- `@lazy-opencode/core` — shared package placeholder
+- `@lazy-opencode/loop` — command-only lazy loop plugin
+- `@lazy-opencode/agents` — minimal plugin entrypoint
 
 ## Install
 
@@ -23,25 +21,35 @@ pnpm build
 pnpm typecheck
 ```
 
-## Current plugin entrypoints
+## Loop plugin
 
-`@lazy-opencode/loop` and `@lazy-opencode/agents` currently export valid minimal plugin functions:
+`@lazy-opencode/loop` implements the first version of the lazy loop workflow with command-only behavior:
+
+- `/lazy-loop <task>` starts a session-local loop
+- `/lazy-loop-cancel` stops the active loop for that session
+- `/lazy-loop-status` reports state
+- loop state is stored in `.lazy-opencode/loop/state.json`
+- the completion tag defaults to `<lazy-opencode>DONE</lazy-opencode>`
+- the iteration limit defaults to `20`
+
+Example:
 
 ```ts
 import loopPlugin from "@lazy-opencode/loop";
-import agentsPlugin from "@lazy-opencode/agents";
 
-export default [loopPlugin, agentsPlugin];
+export default {
+  plugins: [loopPlugin()],
+};
 ```
 
-They do not register tools, commands, agents, state, or hooks yet.
+`@lazy-opencode/agents` remains a minimal plugin entrypoint.
 
 ### Package layout
 
 ```text
 packages/
   core/    core package placeholder
-  loop/    minimal plugin package
+  loop/    command-only lazy loop plugin
   agents/  minimal plugin package
 ```
 
