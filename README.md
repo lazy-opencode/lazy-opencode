@@ -6,7 +6,7 @@ pnpm monorepo for the `@lazy-opencode` plugin suite.
 
 - `@lazy-opencode/core` — shared package placeholder
 - `@lazy-opencode/loop` — command-only lazy loop plugin
-- `@lazy-opencode/agents` — minimal plugin entrypoint
+- `@lazy-opencode/agents` — Producer-first agent system plugin
 
 ## Install
 
@@ -25,10 +25,13 @@ pnpm typecheck
 
 `@lazy-opencode/loop` implements the first version of the lazy loop workflow with command-only behavior:
 
-- `/lazy-loop <task>` starts a session-local loop
+- `/lazy-loop <prompt>` starts a session-local loop
 - `/lazy-loop-cancel` stops the active loop for that session
 - `/lazy-loop-status` reports state
-- loop state is stored in `.lazy-opencode/loop/state.json`
+- loop state is stored per session in `.lazy-opencode/loop/sessions/<session-id>.json`
+- multiple sessions can run lazy loops at the same time without overwriting each other
+- prompts are stored as written, including multiline prompts when opencode passes multiline command arguments
+- loop continuation messages include the original user prompt for context
 - the completion tag defaults to `<lazy-opencode>DONE</lazy-opencode>`
 - the stop tag defaults to `<lazy-opencode>STOP</lazy-opencode>`
 - there is no built-in max iteration limit; stop with `/lazy-loop-cancel` or the stop tag
@@ -43,7 +46,7 @@ export default {
 };
 ```
 
-`@lazy-opencode/agents` remains a minimal plugin entrypoint.
+`@lazy-opencode/agents` registers Producer as the default primary agent and disables opencode's built-in primary agents.
 
 ### Package layout
 

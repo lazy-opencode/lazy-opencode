@@ -1,23 +1,19 @@
 # @lazy-opencode/agents
 
-An initial, skeletal agent system package for opencode plugin suites.
+Initial Producer agent plugin for opencode.
 
-## Includes
+## Behavior
 
-- agent definition helpers and types
-- a small default agent catalog
-- conservative config-hook command registration
+- registers `producer` as the default primary agent
+- disables the built-in `build`, `plan`, `explore`, and `general` agents
+- keeps Producer responsible for user interaction, orchestration decisions, and final response integration
 
 ## Example
 
 ```ts
-import agentsPlugin, { defaultAgents } from "@lazy-opencode/agents";
+import agentsPlugin from "@lazy-opencode/agents";
 
 export default {
-  plugins: [
-    agentsPlugin({
-      agents: defaultAgents,
-    }),
-  ],
+  plugins: [agentsPlugin()],
 };
 ```
