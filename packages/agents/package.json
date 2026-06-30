@@ -1,0 +1,58 @@
+{
+  "name": "@lazy-opencode/agents",
+  "version": "0.0.0",
+  "private": false,
+  "description": "Initial reusable agent catalog and plugin helpers for opencode.",
+  "keywords": [
+    "agent",
+    "agents",
+    "opencode",
+    "plugin"
+  ],
+  "homepage": "https://github.com/lazy-opencode/lazy-opencode#readme",
+  "bugs": {
+    "url": "https://github.com/lazy-opencode/lazy-opencode/issues"
+  },
+  "license": "MIT",
+  "author": "mouyase",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lazy-opencode/lazy-opencode.git",
+    "directory": "packages/agents"
+  },
+  "files": [
+    "dist"
+  ],
+  "type": "module",
+  "sideEffects": false,
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
+  "scripts": {
+    "build": "rslib",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "lint": "oxlint --type-aware . -f agent",
+    "format": "oxfmt .",
+    "format:check": "oxfmt . --check",
+    "clean": "rm -rf dist *.tsbuildinfo"
+  },
+  "dependencies": {
+    "@lazy-opencode/core": "workspace:*"
+  },
+  "devDependencies": {
+    "@opencode-ai/plugin": "*"
+  },
+  "peerDependencies": {
+    "@opencode-ai/plugin": ">=1.0.0"
+  }
+}

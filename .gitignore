@@ -1,0 +1,9 @@
+node_modules
+dist
+**/dist
+*.tsbuildinfo
+.turbo
+.rslib
+coverage
+.DS_Store
+.opencode/*.local.md
