@@ -8,7 +8,7 @@ import type { LazyCommandDefinition } from "./types.js";
 
 const debutExcludedAgentNames = new Set<string>(DEBUT_EXCLUDED_AGENT_NAMES);
 
-const debutAgentNames = LAZY_AGENT_CATALOG.filter(
+export const IDOLS_DEBUT_AGENT_NAMES = LAZY_AGENT_CATALOG.filter(
   (agent) => agent.mode === "subagent" && !debutExcludedAgentNames.has(agent.name),
 ).map((agent) => agent.name);
 
@@ -22,7 +22,7 @@ export const IDOLS_DEBUT_COMMAND_TEMPLATE = [
   "- Then Producer must summarize the results in one table and call out any missing or failed reports.",
   "",
   "Idols to ping:",
-  ...debutAgentNames.map((agentName) => `- ${agentName}`),
+  ...IDOLS_DEBUT_AGENT_NAMES.map((agentName) => `- ${agentName}`),
   "",
   "Excluded idols:",
   ...DEBUT_EXCLUDED_AGENT_NAMES.map((agentName) => `- ${agentName}`),

@@ -1,6 +1,6 @@
 {
   "name": "@lazy-opencode/core",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "private": false,
   "description": "Shared helpers for composing lazy opencode plugins.",
   "keywords": [
@@ -41,6 +41,9 @@
   "scripts": {
     "build": "rslib",
     "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "vitest",
+    "test:run": "vitest run",
+    "coverage": "vitest run --coverage",
     "lint": "oxlint --type-aware . -f agent",
     "format": "oxfmt .",
     "format:check": "oxfmt . --check",

@@ -1,0 +1,12 @@
+{
+  "extends": "../tsconfig.base.json",
+  "compilerOptions": {
+    "noEmit": true,
+    "paths": {
+      "@lazy-opencode/agents": ["./../packages/agents/dist/index.d.ts"],
+      "@lazy-opencode/core": ["./../packages/core/dist/index.d.ts"],
+      "@lazy-opencode/loop": ["./../packages/loop/dist/index.d.ts"]
+    }
+  },
+  "include": ["./api-types.test.ts"]
+}

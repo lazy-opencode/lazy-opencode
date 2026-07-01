@@ -5,6 +5,7 @@ dist
 .turbo
 .rslib
 coverage
+release-summary.json
 .DS_Store
 .opencode/*.local.md
 .lazy-opencode/

@@ -9,6 +9,18 @@
       "dependsOn": ["^build"],
       "outputs": ["*.tsbuildinfo", "tsconfig.tsbuildinfo"]
     },
+    "test": {
+      "dependsOn": ["^build"],
+      "outputs": []
+    },
+    "test:run": {
+      "dependsOn": ["^build"],
+      "outputs": []
+    },
+    "coverage": {
+      "dependsOn": ["^build"],
+      "outputs": ["coverage/**"]
+    },
     "lint": {
       "outputs": []
     },

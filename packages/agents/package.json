@@ -1,6 +1,6 @@
 {
   "name": "@lazy-opencode/agents",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "private": false,
   "description": "Producer-first agent catalog plugin for opencode.",
   "keywords": [
@@ -41,13 +41,16 @@
   "scripts": {
     "build": "rslib",
     "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "vitest",
+    "test:run": "vitest run",
+    "coverage": "vitest run --coverage",
     "lint": "oxlint --type-aware . -f agent",
     "format": "oxfmt .",
     "format:check": "oxfmt . --check",
     "clean": "rm -rf dist *.tsbuildinfo"
   },
   "dependencies": {
-    "@lazy-opencode/core": "workspace:*"
+    "@lazy-opencode/core": "workspace:^"
   },
   "devDependencies": {
     "@opencode-ai/plugin": "*"
