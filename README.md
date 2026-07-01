@@ -46,11 +46,11 @@ export default {
 };
 ```
 
-`@lazy-opencode/agents` registers Producer as the default primary agent, disables opencode's built-in primary agents, and exposes the rest of the catalog as subagents.
+`@lazy-opencode/agents` registers Producer as the default primary agent, disables opencode's built-in primary agents, and exposes the rest of the 765PRO-inspired catalog as specialist idol subagents.
 
 Agent catalog: `producer`, `kotori`, `haruka`, `chihaya`, `miki`, `yukiho`, `yayoi`, `makoto`, `iori`, `hibiki`, `azusa`, `ami`, `mami`, `ritsuko`, and `takane`.
 
-It also registers `/debut`, a Producer-run command that asks every lazy-opencode subagent to report once and summarizes the readiness results. Agent names are lowercase as part of this package's public interface.
+It also registers `/idols-debut`, a Producer-run command that asks the 13 debut-enabled lazy-opencode idols to report once and summarizes the readiness results. `kotori` is intentionally excluded from debut pings. Agent names are lowercase as part of this package's public interface, and each catalog entry stores English, Japanese, and Chinese names.
 
 ### Package layout
 

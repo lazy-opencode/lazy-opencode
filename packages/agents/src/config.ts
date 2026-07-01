@@ -31,12 +31,22 @@ export function applyLazyAgentCatalog(config: unknown): void {
   for (const agent of LAZY_AGENT_CATALOG) {
     const existingValue = agentConfig[agent.name];
     const existing: JsonRecord = isRecord(existingValue) ? existingValue : {};
+    const existingOptionsValue = existing.options;
+    const existingOptions: JsonRecord = isRecord(existingOptionsValue) ? existingOptionsValue : {};
 
     agentConfig[agent.name] = {
       ...existing,
       description: agent.description,
       mode: agent.mode,
       prompt: agent.prompt,
+      options: {
+        ...existingOptions,
+        lazy_opencode: {
+          englishName: agent.englishName,
+          japaneseName: agent.japaneseName,
+          chineseName: agent.chineseName,
+        },
+      },
     };
   }
 
